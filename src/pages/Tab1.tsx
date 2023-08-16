@@ -14,6 +14,7 @@ import { useEffect, useRef } from 'react';
 //   shadowUrl: require('leaflet/dist/images/marker-shadow.png').default
 // });
 
+
 const Tab1: React.FC = () => {
   const ref = useRef<Leaflet.Map>(null)
   useEffect(() => {
@@ -25,7 +26,8 @@ const Tab1: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Map</IonTitle>
+          <IonTitle>
+            FairlyMap</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
@@ -40,14 +42,14 @@ const Tab1: React.FC = () => {
           center={[39.4697500, -0.3773900]}
           zoom={13}
           minZoom={3}
-          maxZoom={19}
           maxBounds={[[-85.06, -180], [85.06, 180]]}
           scrollWheelZoom={true}>
           <TileLayer
-            attribution='&copy; <a href="https://stadiamaps.com/" target="_blank">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/about" target="_blank">OpenStreetMap</a> contributors'
-            url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
+            maxNativeZoom={19}
+            maxZoom={20}
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>, contributors'
+            url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-          {/* TODO: Add markers */}
         </MapContainer>
       </IonContent>
     </IonPage>
@@ -55,5 +57,3 @@ const Tab1: React.FC = () => {
 };
 
 export default Tab1;
-
-
