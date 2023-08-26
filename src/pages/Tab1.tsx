@@ -4,6 +4,16 @@ import {
     IonPage,
     IonTitle,
     IonToolbar,
+    IonFab,
+    IonFabButton,
+    IonIcon,
+    IonModal,
+    IonCheckbox,
+    IonButtons,
+    IonButton,
+    IonList,
+    IonItem,
+    IonLabel,
 } from "@ionic/react";
 import "./Tab1.css";
 import "leaflet/dist/leaflet.css";
@@ -13,11 +23,14 @@ import { places } from "../data/valencia_places";
 import icon from "../assets/taronjeta.png";
 import { Icon, Map } from "leaflet";
 import React from "react";
+import { add, close, filter } from "ionicons/icons";
 
 // const valenciaBounds = TODO
 
 const Tab1: React.FC = () => {
     const ref = useRef<Map>(null);
+    const [isOpen, setIsOpen] = useState(false);
+
     useEffect(() => {
         setTimeout(() => {
             ref.current?.invalidateSize();
@@ -27,7 +40,7 @@ const Tab1: React.FC = () => {
         <IonPage>
             <IonHeader>
                 <IonToolbar>
-                    <IonTitle>FairlyMap</IonTitle>
+                    <IonTitle>Fairly Map</IonTitle>
                 </IonToolbar>
             </IonHeader>
             <IonContent fullscreen>
@@ -75,6 +88,54 @@ const Tab1: React.FC = () => {
                         url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
                 </MapContainer>
+                <IonFab slot="fixed" vertical="bottom" horizontal="end">
+                    <IonFabButton onClick={() => setIsOpen(true)}>
+                        <IonIcon icon={filter}></IonIcon>
+                    </IonFabButton>
+                </IonFab>
+                <IonModal
+                    isOpen={isOpen}
+                    trigger="open-modal"
+                    onIonModalDidDismiss={() => {
+                        setIsOpen(false);
+                    }}
+                >
+                    <IonContent>
+                        <IonList inset={true}>
+                            <IonItem>
+                                <IonLabel>
+                                    <IonCheckbox>
+                                        <h2>Sanctuaries</h2>
+                                    </IonCheckbox>
+                                </IonLabel>
+                            </IonItem>
+                            <IonItem>
+                                <IonLabel>
+                                    <IonCheckbox>
+                                        <h2>Local farmers</h2>
+                                    </IonCheckbox>
+                                </IonLabel>
+                            </IonItem>
+                            <IonItem>
+                                <IonLabel>
+                                    <IonCheckbox>
+                                        <h2>Restaurant</h2>
+                                    </IonCheckbox>
+                                </IonLabel>
+                            </IonItem>
+                            <IonItem>
+                                <IonLabel>
+                                    <IonCheckbox>
+                                        <h2>Clothing store</h2>
+                                    </IonCheckbox>
+                                </IonLabel>
+                            </IonItem>
+                        </IonList>
+                    </IonContent>
+                    <IonButton onClick={() => setIsOpen(false)}>
+                        <IonIcon icon={close}></IonIcon>
+                    </IonButton>
+                </IonModal>
             </IonContent>
         </IonPage>
     );
