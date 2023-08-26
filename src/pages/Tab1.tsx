@@ -9,7 +9,6 @@ import {
     IonIcon,
     IonModal,
     IonCheckbox,
-    IonButtons,
     IonButton,
     IonList,
     IonItem,
@@ -17,13 +16,12 @@ import {
 } from "@ionic/react";
 import "./Tab1.css";
 import "leaflet/dist/leaflet.css";
-import { MapContainer, Marker, Popup, TileLayer, GeoJSON } from "react-leaflet";
+import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import { useEffect, useRef, useState } from "react";
 import { places } from "../data/valencia_places";
-import icon from "../assets/taronjeta.png";
 import { Icon, Map } from "leaflet";
 import React from "react";
-import { add, close, filter } from "ionicons/icons";
+import { close, filter, locationSharp } from "ionicons/icons";
 
 // const valenciaBounds = TODO
 
@@ -67,8 +65,8 @@ const Tab1: React.FC = () => {
                             position={[place.latitude, place.longitude]}
                             icon={
                                 new Icon({
-                                    iconUrl: icon,
-                                    iconSize: [50, 50],
+                                    iconUrl: locationSharp,
+                                    iconSize: [40, 40],
                                     iconAnchor: [30, 41],
                                     popupAnchor: [-8, -40],
                                 })
