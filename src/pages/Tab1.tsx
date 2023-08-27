@@ -22,13 +22,22 @@ import { places } from "../data/valencia_places";
 import { Icon, Map } from "leaflet";
 import React from "react";
 import { close, filter, locationSharp } from "ionicons/icons";
+import { EstablishmentType } from "../domain/types";
 
 // const valenciaBounds = TODO
+
+type Filters = Record<EstablishmentType, boolean>;
 
 const Tab1: React.FC = () => {
     const ref = useRef<Map>(null);
     const [isOpen, setIsOpen] = useState(false);
     const [checked, setChecked] = useState(false);
+    const [filters, setFilters] = useState<Filters>({
+        sanctuary: false,
+        localFarmer: false,
+        restaurant: false,
+        clothingStore: false,
+    });
 
     useEffect(() => {
         setTimeout(() => {
@@ -103,21 +112,45 @@ const Tab1: React.FC = () => {
                         <IonList inset={true}>
                             <IonItem>
                                 <IonLabel>
-                                    <IonCheckbox>
+                                    <IonCheckbox
+                                        checked={filters.sanctuary}
+                                        onIonChange={(e) =>
+                                            setFilters((current) => ({
+                                                ...current,
+                                                sanctuary: e.detail.checked,
+                                            }))
+                                        }
+                                    >
                                         <h2>Sanctuaries</h2>
                                     </IonCheckbox>
                                 </IonLabel>
                             </IonItem>
                             <IonItem>
                                 <IonLabel>
-                                    <IonCheckbox>
+                                    <IonCheckbox
+                                        checked={filters.localFarmer}
+                                        onIonChange={(e) =>
+                                            setFilters((current) => ({
+                                                ...current,
+                                                localFarmer: e.detail.checked,
+                                            }))
+                                        }
+                                    >
                                         <h2>Local farmers</h2>
                                     </IonCheckbox>
                                 </IonLabel>
                             </IonItem>
                             <IonItem>
                                 <IonLabel>
-                                    <IonCheckbox>
+                                    <IonCheckbox
+                                        checked={filters.restaurant}
+                                        onIonChange={(e) =>
+                                            setFilters((current) => ({
+                                                ...current,
+                                                restaurant: e.detail.checked,
+                                            }))
+                                        }
+                                    >
                                         <h2>Restaurant</h2>
                                     </IonCheckbox>
                                 </IonLabel>
@@ -125,9 +158,12 @@ const Tab1: React.FC = () => {
                             <IonItem>
                                 <IonLabel>
                                     <IonCheckbox
-                                        checked={checked}
+                                        checked={filters.clothingStore}
                                         onIonChange={(e) =>
-                                            setChecked(e.detail.checked)
+                                            setFilters((current) => ({
+                                                ...current,
+                                                clothingStore: e.detail.checked,
+                                            }))
                                         }
                                     >
                                         <h2>Clothing store</h2>
