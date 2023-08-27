@@ -28,6 +28,7 @@ import { close, filter, locationSharp } from "ionicons/icons";
 const Tab1: React.FC = () => {
     const ref = useRef<Map>(null);
     const [isOpen, setIsOpen] = useState(false);
+    const [checked, setChecked] = useState(false);
 
     useEffect(() => {
         setTimeout(() => {
@@ -123,7 +124,12 @@ const Tab1: React.FC = () => {
                             </IonItem>
                             <IonItem>
                                 <IonLabel>
-                                    <IonCheckbox>
+                                    <IonCheckbox
+                                        checked={checked}
+                                        onIonChange={(e) =>
+                                            setChecked(e.detail.checked)
+                                        }
+                                    >
                                         <h2>Clothing store</h2>
                                     </IonCheckbox>
                                 </IonLabel>
