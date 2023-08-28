@@ -27,7 +27,7 @@ export const places: Places = [
     },
     {
         name: "Test 4",
-        id: 1,
+        id: 4,
         description: "This is a Sanctuary",
         latitude: 39.45669,
         longitude: -0.38811,
@@ -35,7 +35,7 @@ export const places: Places = [
     },
     {
         name: "Test 5",
-        id: 2,
+        id: 5,
         description: "This is a Local Farmer",
         latitude: 39.46634,
         longitude: -0.38614,
@@ -43,7 +43,7 @@ export const places: Places = [
     },
     {
         name: "Test 6",
-        id: 3,
+        id: 6,
         description: "This is a Clothing store",
         latitude: 39.45018,
         longitude: -0.37518,

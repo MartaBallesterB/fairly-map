@@ -23,20 +23,28 @@ import { Icon, Map } from "leaflet";
 import React from "react";
 import { close, filter, locationSharp } from "ionicons/icons";
 import { EstablishmentType } from "../domain/types";
+import { MapMarker } from "../components/MapMarker";
 
 // const valenciaBounds = TODO
 
 type Filters = Record<EstablishmentType, boolean>;
+type FilterNames = Record<EstablishmentType, string>;
 
-const Tab1: React.FC = () => {
+const filterNames: FilterNames = {
+    sanctuary: "Sanctuaries",
+    localFarmer: "Local farmers",
+    restaurant: "Restaurants",
+    clothingStore: "Clothing stores",
+};
+
+export const Tab1: React.FC = () => {
     const ref = useRef<Map>(null);
     const [isOpen, setIsOpen] = useState(false);
-    const [checked, setChecked] = useState(false);
     const [filters, setFilters] = useState<Filters>({
-        sanctuary: false,
-        localFarmer: false,
-        restaurant: false,
-        clothingStore: false,
+        sanctuary: true,
+        localFarmer: true,
+        restaurant: true,
+        clothingStore: true,
     });
 
     useEffect(() => {
@@ -69,26 +77,11 @@ const Tab1: React.FC = () => {
                     ]}
                     scrollWheelZoom={true}
                 >
-                    {places.map((place) => (
-                        <Marker
-                            key={place.id}
-                            position={[place.latitude, place.longitude]}
-                            icon={
-                                new Icon({
-                                    iconUrl: locationSharp,
-                                    iconSize: [40, 40],
-                                    iconAnchor: [30, 41],
-                                    popupAnchor: [-8, -40],
-                                })
-                            }
-                        >
-                            <Popup>
-                                <b>{place.name}</b>
-                                <br></br>
-                                {place.description}
-                            </Popup>
-                        </Marker>
-                    ))}
+                    {places
+                        .filter((place) => filters[place.establishment_type])
+                        .map((place) => (
+                            <MapMarker key={place.id} place={place} />
+                        ))}
                     <TileLayer
                         maxNativeZoom={19}
                         maxZoom={20}
@@ -110,75 +103,39 @@ const Tab1: React.FC = () => {
                 >
                     <IonContent>
                         <IonList inset={true}>
-                            <IonItem>
-                                <IonLabel>
-                                    <IonCheckbox
-                                        checked={filters.sanctuary}
-                                        onIonChange={(e) =>
-                                            setFilters((current) => ({
-                                                ...current,
-                                                sanctuary: e.detail.checked,
-                                            }))
-                                        }
-                                    >
-                                        <h2>Sanctuaries</h2>
-                                    </IonCheckbox>
-                                </IonLabel>
-                            </IonItem>
-                            <IonItem>
-                                <IonLabel>
-                                    <IonCheckbox
-                                        checked={filters.localFarmer}
-                                        onIonChange={(e) =>
-                                            setFilters((current) => ({
-                                                ...current,
-                                                localFarmer: e.detail.checked,
-                                            }))
-                                        }
-                                    >
-                                        <h2>Local farmers</h2>
-                                    </IonCheckbox>
-                                </IonLabel>
-                            </IonItem>
-                            <IonItem>
-                                <IonLabel>
-                                    <IonCheckbox
-                                        checked={filters.restaurant}
-                                        onIonChange={(e) =>
-                                            setFilters((current) => ({
-                                                ...current,
-                                                restaurant: e.detail.checked,
-                                            }))
-                                        }
-                                    >
-                                        <h2>Restaurant</h2>
-                                    </IonCheckbox>
-                                </IonLabel>
-                            </IonItem>
-                            <IonItem>
-                                <IonLabel>
-                                    <IonCheckbox
-                                        checked={filters.clothingStore}
-                                        onIonChange={(e) =>
-                                            setFilters((current) => ({
-                                                ...current,
-                                                clothingStore: e.detail.checked,
-                                            }))
-                                        }
-                                    >
-                                        <h2>Clothing store</h2>
-                                    </IonCheckbox>
-                                </IonLabel>
-                            </IonItem>
+                            {(Object.keys(filters) as Array<keyof Filters>).map(
+                                (filter) => (
+                                    <IonItem key={filter}>
+                                        <IonLabel>
+                                            <IonCheckbox
+                                                checked={filters[filter]}
+                                                onIonChange={(e) =>
+                                                    setFilters((current) => ({
+                                                        ...current,
+                                                        [filter]:
+                                                            e.detail.checked,
+                                                    }))
+                                                }
+                                            >
+                                                <h2>{filterNames[filter]}</h2>
+                                            </IonCheckbox>
+                                        </IonLabel>
+                                    </IonItem>
+                                ),
+                            )}
                         </IonList>
                     </IonContent>
-                    <IonButton onClick={() => setIsOpen(false)}>
-                        <IonIcon icon={close}></IonIcon>
-                    </IonButton>
+                    <p>
+                        <IonButton
+                            size="small"
+                            shape="round"
+                            onClick={() => setIsOpen(false)}
+                        >
+                            <h4>Save</h4>
+                        </IonButton>
+                    </p>
                 </IonModal>
             </IonContent>
         </IonPage>
     );
 };
-
-export default Tab1;
